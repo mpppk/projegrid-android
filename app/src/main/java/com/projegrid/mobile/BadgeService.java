@@ -4,9 +4,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -73,6 +74,9 @@ public class BadgeService extends Service implements View.OnTouchListener {
         int x = (int) event.getRawX();
         int y = (int) event.getRawY();
 
+        Display display = wm.getDefaultDisplay();
+        Point point = new Point(0, 0);
+        display.getRealSize(point);
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
 
@@ -85,6 +89,23 @@ public class BadgeService extends Service implements View.OnTouchListener {
 
                 params.x += left;
                 params.y += top;
+
+                if (params.x < 0) {
+                    params.x = 0;
+                }
+
+                if(params.x > point.x - v.getWidth()){
+                    params.x = point.x - v.getWidth();
+                }
+
+                if (params.y < 0) {
+                    params.y = 0;
+                }
+
+                if(params.y > point.y - v.getHeight()){
+                    params.y = point.y - v.getHeight();
+                }
+
                 wm.updateViewLayout(view, params);
 
                 break;
@@ -96,7 +117,7 @@ public class BadgeService extends Service implements View.OnTouchListener {
 
         // 吹き出しに現在位置を表示
         BubbleTextVew bubble = (BubbleTextVew) v.findViewById(R.id.badge_bubble);
-        bubble.setText("x:" + x + " y:" + y);
+        bubble.setText("x:" + x + " y:" + y + " mx:" + (point.x - v.getWidth()) + " my:" + (point.y - v.getHeight()));
 
         // イベント処理完了
         return true;
