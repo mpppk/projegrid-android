@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.github.library.bubbleview.BubbleTextVew;
+
 /**
  * Created by yuki on 6/23/16.
  */
@@ -93,8 +95,8 @@ public class BadgeService extends Service implements View.OnTouchListener {
         oldy = y;
 
         // 吹き出しに現在位置を表示
-//        BubbleTextVew bubble = (BubbleTextVew) v.findViewById(R.id.badge_bubble);
-//        bubble.setText("x:" + x + " y:" + y);
+        BubbleTextVew bubble = (BubbleTextVew) v.findViewById(R.id.badge_bubble);
+        bubble.setText("x:" + x + " y:" + y);
 
         // イベント処理完了
         return true;

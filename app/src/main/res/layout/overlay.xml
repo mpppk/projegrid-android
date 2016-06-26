@@ -4,8 +4,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:weightSum="1"
-    android:background="#f1b3b3">
+    android:weightSum="1">
 
     <LinearLayout
         android:id="@+id/badge"
@@ -17,7 +16,7 @@
             android:id="@+id/badge_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello BubbleTextVew"
+            android:text="x: y: "
             android:padding="10dp"
             android:textColor="@android:color/white"
             app:arrowWidth="8dp"
