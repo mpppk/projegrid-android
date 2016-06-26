@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1">
 
-    <ImageView
-        android:layout_width="57dp"
-        android:layout_height="57dp"
-        android:id="@+id/imageView"
-        android:layout_gravity="right|bottom" />
+
+
+    <LinearLayout
+        android:id="@+id/badge"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|top">
+        <com.github.library.bubbleview.BubbleTextVew
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello BubbleTextVew"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            app:arrowWidth="8dp"
+            app:angle="8dp"
+            app:arrowHeight="10dp"
+            app:arrowPosition="14dp"
+            app:arrowLocation="right"
+            app:bubbleColor="#7EC0EE"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_launcher" />
+    </LinearLayout>
 </FrameLayout>

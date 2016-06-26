@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 
 
@@ -30,22 +28,17 @@ public class BadgeService extends Service implements View.OnTouchListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        Log.d(SERVICE_NAME, "-------- onStartCommand --------R");
 
         // Viewからインフレータを作成する
         LayoutInflater layoutInflater = LayoutInflater.from(this);
 
         // 重ね合わせするViewの設定を行う
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-//                1000,
-//                1000,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                         WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                        WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
 
         // WindowManagerを取得する
@@ -53,10 +46,8 @@ public class BadgeService extends Service implements View.OnTouchListener {
 
         // レイアウトファイルから重ね合わせするViewを作成する
         view = layoutInflater.inflate(R.layout.overlay, null);
-        ImageView imageView = (ImageView)view.findViewById(R.id.imageView);
-        imageView.setImageResource(R.mipmap.ic_launcher);
-        imageView.setOnTouchListener(this);
-//        ImageView imageView = new ImageView();
+        View newView = view.findViewById(R.id.badge);
+        newView.setOnTouchListener(this);
 
         // Viewを画面上に重ね合わせする
         wm.addView(view, params);
