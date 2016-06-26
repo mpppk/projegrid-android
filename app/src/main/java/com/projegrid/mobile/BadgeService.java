@@ -28,8 +28,11 @@ public class BadgeService extends Service implements View.OnTouchListener {
     WindowManager.LayoutParams params;
 
     // ドラッグ中に移動量を取得するための変数
-    private int oldx;
-    private int oldy;
+    private int oldX;
+    private int oldY;
+
+    private int maxX;
+    private int maxY;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -59,6 +62,14 @@ public class BadgeService extends Service implements View.OnTouchListener {
 
         // Viewを画面上に重ね合わせする
         wm.addView(view, params);
+
+        // 画面サイズの取得
+        Display display = wm.getDefaultDisplay();
+        Point point = new Point(0, 0);
+        display.getSize(point);
+        maxX = point.x;
+        maxY = point.y;
+
         return START_NOT_STICKY;
     }
 
@@ -74,15 +85,12 @@ public class BadgeService extends Service implements View.OnTouchListener {
         int x = (int) event.getRawX();
         int y = (int) event.getRawY();
 
-        Display display = wm.getDefaultDisplay();
-        Point point = new Point(0, 0);
-        display.getRealSize(point);
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
 
                 // 今回イベントでのView移動先の位置
-                int left = v.getLeft() + (x - oldx);
-                int top = v.getTop() + (y - oldy);
+                int left = v.getLeft() + (x - oldX);
+                int top = v.getTop() + (y - oldY);
                 // Viewを移動する
                 v.layout(left, top, left + v.getWidth(), top
                         + v.getHeight());
@@ -94,16 +102,16 @@ public class BadgeService extends Service implements View.OnTouchListener {
                     params.x = 0;
                 }
 
-                if(params.x > point.x - v.getWidth()){
-                    params.x = point.x - v.getWidth();
+                if(params.x > maxX - v.getWidth()){
+                    params.x = maxX - v.getWidth();
                 }
 
                 if (params.y < 0) {
                     params.y = 0;
                 }
 
-                if(params.y > point.y - v.getHeight()){
-                    params.y = point.y - v.getHeight();
+                if(params.y > maxY - v.getHeight()){
+                    params.y = maxY - v.getHeight();
                 }
 
                 wm.updateViewLayout(view, params);
@@ -112,12 +120,12 @@ public class BadgeService extends Service implements View.OnTouchListener {
         }
 
         // 今回のタッチ位置を保持
-        oldx = x;
-        oldy = y;
+        oldX = x;
+        oldY = y;
 
         // 吹き出しに現在位置を表示
         BubbleTextVew bubble = (BubbleTextVew) v.findViewById(R.id.badge_bubble);
-        bubble.setText("x:" + x + " y:" + y + " mx:" + (point.x - v.getWidth()) + " my:" + (point.y - v.getHeight()));
+        bubble.setText("x:" + params.x + " y:" + params.y + " mx:" + (maxX - v.getWidth()) + " my:" + (maxY - v.getHeight()));
 
         // イベント処理完了
         return true;
