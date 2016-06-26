@@ -28,10 +28,26 @@
             android:layout_gravity="center" />
 
         <ImageView
+            android:id="@+id/badge_icon"
             android:layout_width="57dp"
             android:layout_height="57dp"
-            android:id="@+id/imageView"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_launcher" />
+
+        <com.github.library.bubbleview.BubbleTextVew
+            android:id="@+id/badge_bubble_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x: y: "
+            android:visibility="gone"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            app:arrowWidth="8dp"
+            app:angle="8dp"
+            app:arrowHeight="10dp"
+            app:arrowPosition="14dp"
+            app:arrowLocation="left"
+            app:bubbleColor="#7EC0EE"
+            android:layout_gravity="center" />
     </LinearLayout>
 </LinearLayout>

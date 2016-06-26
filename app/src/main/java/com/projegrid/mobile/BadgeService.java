@@ -7,6 +7,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.github.library.bubbleview.BubbleTextVew;
 
@@ -26,6 +28,9 @@ public class BadgeService extends Service implements View.OnTouchListener {
     WindowManager wm;
     final String SERVICE_NAME = "BadgeService";
     WindowManager.LayoutParams params;
+    BubbleTextVew badgeBubbleLeft;
+    BubbleTextVew badgeBubbleRight;
+    ImageView badge;
 
     // ドラッグ中に移動量を取得するための変数
     private int oldX;
@@ -70,6 +75,13 @@ public class BadgeService extends Service implements View.OnTouchListener {
         maxX = point.x;
         maxY = point.y;
 
+        // バッジの取得
+        badge = (ImageView) badgeViewGroup.findViewById(R.id.badge_icon);
+
+        // 吹き出しの取得
+        badgeBubbleLeft = (BubbleTextVew) badgeViewGroup.findViewById(R.id.badge_bubble);
+        badgeBubbleRight = (BubbleTextVew) badgeViewGroup.findViewById(R.id.badge_bubble_right);
+
         return START_NOT_STICKY;
     }
 
@@ -86,6 +98,17 @@ public class BadgeService extends Service implements View.OnTouchListener {
         int y = (int) event.getRawY();
 
         switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+
+                if(badgeBubbleLeft.getVisibility() == View.VISIBLE){
+                    params.x += badgeBubbleLeft.getWidth();
+                    wm.updateViewLayout(view, params);
+                }
+
+                badgeBubbleLeft.setVisibility(View.GONE);
+                badgeBubbleRight.setVisibility(View.GONE);
+
+                break;
             case MotionEvent.ACTION_MOVE:
 
                 // 今回イベントでのView移動先の位置
@@ -97,6 +120,9 @@ public class BadgeService extends Service implements View.OnTouchListener {
 
                 params.x += left;
                 params.y += top;
+
+                // アイコンの左端を計算
+                int iconLeft = badgeBubbleLeft.getVisibility() == View.VISIBLE ? params.x + badgeBubbleLeft.getWidth() : params.x;
 
                 if (params.x < 0) {
                     params.x = 0;
@@ -114,6 +140,27 @@ public class BadgeService extends Service implements View.OnTouchListener {
                     params.y = maxY - v.getHeight();
                 }
 
+                // バッジが左のほうに寄ったら吹き出しを消す
+                if(params.x < badge.getWidth()){
+                    if(badgeBubbleLeft.getVisibility() == View.VISIBLE){
+                        params.x += badgeBubbleLeft.getWidth();
+                    }
+
+                    badgeBubbleLeft.setVisibility(View.GONE);
+                    badgeBubbleRight.setVisibility(View.VISIBLE);
+                }else if(params.x > maxX - badge.getWidth() * 2){
+                    badgeBubbleRight.setVisibility(View.GONE);
+                    badgeBubbleLeft.setVisibility(View.VISIBLE);
+                    params.x -= badgeBubbleLeft.getWidth();
+                }else if(iconLeft > badge.getWidth() && iconLeft < maxX - badge.getWidth() * 2){
+                    if(badgeBubbleLeft.getVisibility() == View.VISIBLE){
+                        params.x += badgeBubbleLeft.getWidth();
+                    }
+
+                    badgeBubbleRight.setVisibility(View.GONE);
+                    badgeBubbleLeft.setVisibility(View.GONE);
+                }
+
                 wm.updateViewLayout(view, params);
 
                 break;
@@ -124,8 +171,8 @@ public class BadgeService extends Service implements View.OnTouchListener {
         oldY = y;
 
         // 吹き出しに現在位置を表示
-        BubbleTextVew bubble = (BubbleTextVew) v.findViewById(R.id.badge_bubble);
-        bubble.setText("x:" + params.x + " y:" + params.y + " mx:" + (maxX - v.getWidth()) + " my:" + (maxY - v.getHeight()));
+        badgeBubbleLeft.setText("x:" + params.x + " y:" + params.y);
+        badgeBubbleRight.setText("x:" + params.x + " y:" + params.y);
 
         // イベント処理完了
         return true;
