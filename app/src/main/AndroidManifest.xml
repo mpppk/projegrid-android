@@ -28,6 +28,13 @@
                 <data android:host="projegrid.com" android:scheme="projegrid" android:path="/checkin"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ReceiveGridAppActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
