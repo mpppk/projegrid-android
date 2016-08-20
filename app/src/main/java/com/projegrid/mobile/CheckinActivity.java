@@ -30,12 +30,12 @@ public class CheckinActivity extends AppCompatActivity {
     private String TAG = "CheckinActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private String checkinEndpoint = "https://projegrid.herokuapp.com/api/screen/check_in";
+    private String checkinEndpoint = "https://projegrid-stg.herokuapp.com/api/screen/check_in";
     private final OkHttpClient client = new OkHttpClient();
     private String screenId = null;
     private String screenToken = null;
-    private String screenIdQueryKey = "screenid";
-    private String screenTokenQueryKey = "screentoken";
+    private String screenIdQueryKey = "screenId";
+    private String screenTokenQueryKey = "screenToken";
 
     public static final MediaType MEDIA_TYPE_JSON
             = MediaType.parse("application/json; charset=utf-8");
