@@ -11,6 +11,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -25,4 +26,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.lguipeng.bubbleview:library:1.0.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.4'
+    compile 'com.android.support:multidex:1.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

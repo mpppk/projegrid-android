@@ -17,7 +17,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".BadgeService" />
+
+        <activity android:name=".CheckinActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="projegrid.com" android:scheme="projegrid" android:path="/checkin"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
