@@ -3,8 +3,7 @@ general:
     - "app/build/outputs/apk/app-release-unsigned.apk"
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.3"
-    - echo y | android update sdk --no-ui --all --filter "extra-google-google_play_services"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.3,addon-google_apis-google-23,addon-google_apis-google-23,extra-google-google_play_services"
 deployment:
   master:
     branch: master
