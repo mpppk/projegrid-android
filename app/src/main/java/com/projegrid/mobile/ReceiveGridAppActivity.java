@@ -1,16 +1,28 @@
 package com.projegrid.mobile;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.projegrid.mobile.gridapp.parser.GridAppParser;
+import com.projegrid.mobile.gridapp.parser.YNorikaeGridAppParser;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReceiveGridAppActivity extends AppCompatActivity {
     private String TAG = "ReceiveGridAppActivity";
+
+    private List<GridAppParser> gridAppParsers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive_grid_app);
+
+        gridAppParsers = createParsers();
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -19,9 +31,22 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
             if (extras != null) {
                 CharSequence ext = extras.getCharSequence(Intent.EXTRA_TEXT);
                 if (ext != null) {
-                    Log.d(TAG, (String) ext);
+                    // 文字列 or どのアプリから送られてきたかによって処理を分ける
+                    try {
+                        GridAppParser gridAppParser =  GridAppParser.chooseParser(gridAppParsers, (String) ext);
+                        gridAppParser.toJson();
+                    } catch (IOException e) {
+                        Log.w(TAG, "Grid App用文字列のparseに失敗しました。");
+                        e.printStackTrace();
+                    }
                 }
             }
         }
+    }
+
+    private List<GridAppParser> createParsers(){
+        List<GridAppParser> parsers = new ArrayList<>();
+        parsers.add(new YNorikaeGridAppParser());
+        return parsers;
     }
 }
