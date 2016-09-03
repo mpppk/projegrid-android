@@ -49,7 +49,7 @@ public class YNorikaeGridAppParser extends GridAppParser {
         model.setType("ynorikae");
         String[] stations = getDepartureAndArrivalStation(lines.get(0));
         model.setDepartureStation(stations[0]);
-        model.setDepartureStation(stations[1]);
+        model.setArrivalStation(stations[1]);
 
         DateTime[] dateTimes = getDepartureAndArrivalTime(lines.get(1), lines.get(2));
         model.setDepartureTime(dateTimes[0]);

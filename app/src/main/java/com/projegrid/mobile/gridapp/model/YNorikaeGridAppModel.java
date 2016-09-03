@@ -1,5 +1,6 @@
 package com.projegrid.mobile.gridapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projegrid.mobile.gridapp.parser.GridAppParser;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -11,16 +12,22 @@ import org.joda.time.DateTime;
  */
 public class YNorikaeGridAppModel extends GridAppModel {
     private String departureStation;
+    @JsonIgnore
     private DateTime departureTime;
+    private String departureTimeStr;
     private String arrivalStation;
+    @JsonIgnore
     private DateTime arrivalTime;
+    private String arrivalTimeStr;
 
     public DateTime getArrivalTime() {
         return arrivalTime;
     }
 
     public void setArrivalTime(DateTime arrivalTime) {
+
         this.arrivalTime = arrivalTime;
+        this.arrivalTimeStr = arrivalTime.toString();
     }
 
     public String getArrivalStation() {
@@ -36,7 +43,9 @@ public class YNorikaeGridAppModel extends GridAppModel {
     }
 
     public void setDepartureTime(DateTime departureTime) {
+
         this.departureTime = departureTime;
+        this.departureTimeStr = departureTime.toString();
     }
 
     public String getDepartureStation() {
@@ -45,5 +54,13 @@ public class YNorikaeGridAppModel extends GridAppModel {
 
     public void setDepartureStation(String departureStation) {
         this.departureStation = departureStation;
+    }
+
+    public String getArrivalTimeStr() {
+        return arrivalTimeStr;
+    }
+
+    public String getDepartureTimeStr() {
+        return departureTimeStr;
     }
 }
