@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.projegrid.mobile.gridapp.parser.GridAppParser;
-import com.projegrid.mobile.gridapp.parser.YNorikaeGridAppParser;
+import com.projegrid.mobile.gridapp.parser.YTrainGridAppParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
 
     private List<GridAppParser> createParsers(){
         List<GridAppParser> parsers = new ArrayList<>();
-        parsers.add(new YNorikaeGridAppParser());
+        parsers.add(new YTrainGridAppParser());
         return parsers;
     }
 }

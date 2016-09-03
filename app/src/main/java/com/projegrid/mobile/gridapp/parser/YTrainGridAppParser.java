@@ -3,7 +3,7 @@ package com.projegrid.mobile.gridapp.parser;
 import android.util.Log;
 
 import com.projegrid.mobile.gridapp.model.GridAppModel;
-import com.projegrid.mobile.gridapp.model.YNorikaeGridAppModel;
+import com.projegrid.mobile.gridapp.model.YTrainGridAppModel;
 
 import org.joda.time.DateTime;
 
@@ -15,18 +15,18 @@ import java.util.List;
 /**
  * Created by yuki on 8/15/16.
  */
-public class YNorikaeGridAppParser extends GridAppParser {
-    private static final String TAG = "YNorikaeGridAppParser";
+public class YTrainGridAppParser extends GridAppParser {
+    private static final String TAG = "YTrainGridAppParser";
 
     private static final String ARROW_STR = " ⇒ ";
 
     private final String INVALID_DATA_MESSAGE = getAppName() + "に渡されたデータが想定と異なります。";
 
-    public YNorikaeGridAppParser(String dataStr) throws IOException {
+    public YTrainGridAppParser(String dataStr) throws IOException {
         super(dataStr);
     }
 
-    public YNorikaeGridAppParser(){
+    public YTrainGridAppParser(){
         super();
     }
 
@@ -45,8 +45,7 @@ public class YNorikaeGridAppParser extends GridAppParser {
     @Override
     public GridAppModel createModel() {
         Log.d(TAG, dataStr);
-        YNorikaeGridAppModel model = new YNorikaeGridAppModel();
-        model.setType("ynorikae");
+        YTrainGridAppModel model = new YTrainGridAppModel();
         String[] stations = getDepartureAndArrivalStation(lines.get(0));
         model.setDepartureStation(stations[0]);
         model.setArrivalStation(stations[1]);

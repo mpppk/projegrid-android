@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 /**
  * Created by yuki on 8/15/16.
  */
-public class YNorikaeGridAppModel extends GridAppModel {
+public class YTrainGridAppModel extends GridAppModel {
     private String departureStation;
     @JsonIgnore
     private DateTime departureTime;
@@ -19,6 +19,10 @@ public class YNorikaeGridAppModel extends GridAppModel {
     @JsonIgnore
     private DateTime arrivalTime;
     private String arrivalTimeStr;
+
+    public YTrainGridAppModel(){
+        setType("Y_TRAIN");
+    }
 
     public DateTime getArrivalTime() {
         return arrivalTime;
