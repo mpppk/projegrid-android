@@ -1,5 +1,7 @@
 package com.projegrid.mobile.gridapp.model;
 
+import com.projegrid.mobile.gridapp.parser.GridAppParser;
+
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTime;
@@ -7,7 +9,7 @@ import org.joda.time.DateTime;
 /**
  * Created by yuki on 8/15/16.
  */
-public class YNorikaeGridAppModel {
+public class YNorikaeGridAppModel extends GridAppModel {
     private String departureStation;
     private DateTime departureTime;
     private String arrivalStation;

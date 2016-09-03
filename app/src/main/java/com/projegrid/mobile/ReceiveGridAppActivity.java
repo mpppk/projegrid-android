@@ -34,7 +34,7 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
                     // 文字列 or どのアプリから送られてきたかによって処理を分ける
                     try {
                         GridAppParser gridAppParser =  GridAppParser.chooseParser(gridAppParsers, (String) ext);
-                        gridAppParser.toJson();
+                        Log.d(TAG, gridAppParser.parse());
                     } catch (IOException e) {
                         Log.w(TAG, "Grid App用文字列のparseに失敗しました。");
                         e.printStackTrace();

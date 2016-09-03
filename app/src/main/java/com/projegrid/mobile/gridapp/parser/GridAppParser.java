@@ -1,5 +1,9 @@
 package com.projegrid.mobile.gridapp.parser;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.projegrid.mobile.gridapp.model.GridAppModel;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -16,7 +20,7 @@ public abstract class GridAppParser {
 
     abstract protected String getAppName();
     abstract protected List<String> getRequiredWords();
-    abstract public String toJson();
+    abstract protected GridAppModel createModel();
 
     public GridAppParser(){}
 
@@ -64,11 +68,14 @@ public abstract class GridAppParser {
         return lines;
     }
 
-    public String parse(String dataStr){
+    public String parse() throws JsonProcessingException {
         if(!this.canHandle()){
             throw new IllegalArgumentException(getAppName() + "ではないデータです。");
         }
-        return toJson();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.writeValueAsString(createModel());
     }
 
     static public GridAppParser chooseParser(List<GridAppParser> parsers, String dataStr) throws IOException {

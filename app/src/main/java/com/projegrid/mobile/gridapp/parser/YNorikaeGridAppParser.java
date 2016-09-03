@@ -2,6 +2,7 @@ package com.projegrid.mobile.gridapp.parser;
 
 import android.util.Log;
 
+import com.projegrid.mobile.gridapp.model.GridAppModel;
 import com.projegrid.mobile.gridapp.model.YNorikaeGridAppModel;
 
 import org.joda.time.DateTime;
@@ -42,14 +43,21 @@ public class YNorikaeGridAppParser extends GridAppParser {
     }
 
     @Override
-    public String toJson(){
+    public GridAppModel createModel() {
         Log.d(TAG, dataStr);
         YNorikaeGridAppModel model = new YNorikaeGridAppModel();
+        model.setType("ynorikae");
+        String[] stations = getDepartureAndArrivalStation(lines.get(0));
+        model.setDepartureStation(stations[0]);
+        model.setDepartureStation(stations[1]);
+
         DateTime[] dateTimes = getDepartureAndArrivalTime(lines.get(1), lines.get(2));
+        model.setDepartureTime(dateTimes[0]);
+        model.setArrivalTime(dateTimes[1]);
         Log.d(TAG, "departure date time: " + dateTimes[0]);
         Log.d(TAG, "arrival date time: " + dateTimes[1]);
 
-        return null;
+        return model;
     }
 
     private String[] getDepartureAndArrivalStation(String departureAndArrivalStationLine){
