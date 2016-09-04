@@ -1,37 +1,16 @@
 package com.projegrid.mobile.gridapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projegrid.mobile.gridapp.parser.GridAppParser;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
-import org.joda.time.DateTime;
-
 /**
  * Created by yuki on 8/15/16.
  */
 public class YTrainGridAppModel extends GridAppModel {
     private String departureStation;
-    @JsonIgnore
-    private DateTime departureTime;
     private String departureTimeStr;
     private String arrivalStation;
-    @JsonIgnore
-    private DateTime arrivalTime;
     private String arrivalTimeStr;
 
     public YTrainGridAppModel(){
         setType("Y_TRAIN");
-    }
-
-    public DateTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(DateTime arrivalTime) {
-
-        this.arrivalTime = arrivalTime;
-        this.arrivalTimeStr = arrivalTime.toString();
     }
 
     public String getArrivalStation() {
@@ -40,16 +19,6 @@ public class YTrainGridAppModel extends GridAppModel {
 
     public void setArrivalStation(String arrivalStation) {
         this.arrivalStation = arrivalStation;
-    }
-
-    public DateTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(DateTime departureTime) {
-
-        this.departureTime = departureTime;
-        this.departureTimeStr = departureTime.toString();
     }
 
     public String getDepartureStation() {
@@ -66,5 +35,13 @@ public class YTrainGridAppModel extends GridAppModel {
 
     public String getDepartureTimeStr() {
         return departureTimeStr;
+    }
+
+    public void setDepartureTimeStr(String departureTimeStr) {
+        this.departureTimeStr = departureTimeStr;
+    }
+
+    public void setArrivalTimeStr(String arrivalTimeStr) {
+        this.arrivalTimeStr = arrivalTimeStr;
     }
 }

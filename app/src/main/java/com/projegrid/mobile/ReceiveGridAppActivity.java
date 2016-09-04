@@ -46,7 +46,7 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
                     try {
                         GridAppParser gridAppParser =  GridAppParser.chooseParser(gridAppParsers, (String) ext);
                         Log.d(TAG, gridAppParser.parse());
-                        String jsonStr = gridAppParser.parse();
+                        GridAppModel model = gridAppParser.createModel();
                         // firebaseにjsonを格納
                         // screens/screenID/grid1
                         String screenId = prefer.getString(screenIdQueryKey, "not found");
@@ -55,8 +55,7 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
                         }
                         Log.d(TAG, "grid path: " + "screens/" + screenId + "/grid1");
                         DatabaseReference screensRef = database.getReference("screens/" + screenId + "/grid1");
-                        screensRef.setValue(jsonStr);
-
+                        screensRef.setValue(model);
                     } catch (IOException e) {
                         Log.w(TAG, "Grid App用文字列のparseに失敗しました。");
                         e.printStackTrace();

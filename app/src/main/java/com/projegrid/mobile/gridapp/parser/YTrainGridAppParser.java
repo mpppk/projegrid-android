@@ -51,8 +51,8 @@ public class YTrainGridAppParser extends GridAppParser {
         model.setArrivalStation(stations[1]);
 
         DateTime[] dateTimes = getDepartureAndArrivalTime(lines.get(1), lines.get(2));
-        model.setDepartureTime(dateTimes[0]);
-        model.setArrivalTime(dateTimes[1]);
+        model.setDepartureTimeStr(dateTimes[0].toString());
+        model.setArrivalTimeStr(dateTimes[1].toString());
         Log.d(TAG, "departure date time: " + dateTimes[0]);
         Log.d(TAG, "arrival date time: " + dateTimes[1]);
 

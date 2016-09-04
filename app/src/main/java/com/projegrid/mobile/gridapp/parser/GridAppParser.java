@@ -20,7 +20,7 @@ public abstract class GridAppParser {
 
     abstract protected String getAppName();
     abstract protected List<String> getRequiredWords();
-    abstract protected GridAppModel createModel();
+    abstract public GridAppModel createModel();
 
     public GridAppParser(){}
 
