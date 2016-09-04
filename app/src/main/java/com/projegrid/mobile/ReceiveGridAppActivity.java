@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,8 +30,6 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receive_grid_app);
-
         prefer = getSharedPreferences("screen", MODE_PRIVATE);
 
         gridAppParsers = createParsers();
@@ -56,6 +55,8 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
                         Log.d(TAG, "grid path: " + "screens/" + screenId + "/grid1");
                         DatabaseReference screensRef = database.getReference("screens/" + screenId + "/grid1");
                         screensRef.setValue(model);
+                        Toast.makeText(getApplicationContext(), "Send to projegrid", Toast.LENGTH_LONG).show();
+                        finish();
                     } catch (IOException e) {
                         Log.w(TAG, "Grid App用文字列のparseに失敗しました。");
                         e.printStackTrace();
