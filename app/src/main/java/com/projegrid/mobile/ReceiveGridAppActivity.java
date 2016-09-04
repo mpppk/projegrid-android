@@ -1,10 +1,17 @@
 package com.projegrid.mobile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.projegrid.mobile.gridapp.model.GridAppModel;
 import com.projegrid.mobile.gridapp.parser.GridAppParser;
 import com.projegrid.mobile.gridapp.parser.YTrainGridAppParser;
 
@@ -16,11 +23,15 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
     private String TAG = "ReceiveGridAppActivity";
 
     private List<GridAppParser> gridAppParsers;
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    SharedPreferences prefer;
+    private String screenIdQueryKey = "screenId";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive_grid_app);
+
+        prefer = getSharedPreferences("screen", MODE_PRIVATE);
 
         gridAppParsers = createParsers();
 
@@ -35,6 +46,17 @@ public class ReceiveGridAppActivity extends AppCompatActivity {
                     try {
                         GridAppParser gridAppParser =  GridAppParser.chooseParser(gridAppParsers, (String) ext);
                         Log.d(TAG, gridAppParser.parse());
+                        String jsonStr = gridAppParser.parse();
+                        // firebaseにjsonを格納
+                        // screens/screenID/grid1
+                        String screenId = prefer.getString(screenIdQueryKey, "not found");
+                        if(screenId.equals("not found")){
+                            Log.d(TAG, "screen id not found(key: " + screenIdQueryKey + ")");
+                        }
+                        Log.d(TAG, "grid path: " + "screens/" + screenId + "/grid1");
+                        DatabaseReference screensRef = database.getReference("screens/" + screenId + "/grid1");
+                        screensRef.setValue(jsonStr);
+
                     } catch (IOException e) {
                         Log.w(TAG, "Grid App用文字列のparseに失敗しました。");
                         e.printStackTrace();

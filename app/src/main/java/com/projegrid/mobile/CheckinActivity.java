@@ -1,6 +1,7 @@
 package com.projegrid.mobile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,8 @@ public class CheckinActivity extends AppCompatActivity {
     private String screenToken = null;
     private String screenIdQueryKey = "screenId";
     private String screenTokenQueryKey = "screenToken";
+    SharedPreferences prefer;
+
 
     public static final MediaType MEDIA_TYPE_JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -80,6 +83,8 @@ public class CheckinActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkin);
+
+        prefer = getSharedPreferences("screen", MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInAnonymously()
@@ -177,6 +182,10 @@ public class CheckinActivity extends AppCompatActivity {
                 try{
                     screenId = uri.getQueryParameter(screenIdQueryKey);
                     screenToken = uri.getQueryParameter(screenTokenQueryKey);
+                    SharedPreferences.Editor editor = prefer.edit();
+                    editor.putString(screenIdQueryKey, screenId);
+                    editor.putString(screenTokenQueryKey, screenToken);
+                    editor.apply();
                 }catch(NullPointerException e){
                     screenId = null;
                     screenToken = null;
