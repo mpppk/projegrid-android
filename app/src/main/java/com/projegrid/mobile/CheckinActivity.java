@@ -3,6 +3,7 @@ package com.projegrid.mobile;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class CheckinActivity extends AppCompatActivity {
     private String screenTokenQueryKey = "screenToken";
     SharedPreferences prefer;
 
+    Handler handler = new Handler();
 
     public static final MediaType MEDIA_TYPE_JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -148,15 +150,22 @@ public class CheckinActivity extends AppCompatActivity {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            Log.d(TAG, "check in api response returned");
-                            Log.d(TAG, response.body().string());
-
+                            final String toastMessage;
                             if(response.code() == 200){
                                 Log.d(TAG, "check in api post success");
+                                toastMessage = "check in to projegrid";
                             }else{
                                 Log.d(TAG, String.valueOf(response.code()));
                                 Log.d(TAG, "check in api post parameter invalid");
+                                toastMessage = "check in failed";
                             }
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            finish();
                         }
                     });
                 } else {
