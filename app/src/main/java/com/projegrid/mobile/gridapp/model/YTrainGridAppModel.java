@@ -3,15 +3,11 @@ package com.projegrid.mobile.gridapp.model;
 /**
  * Created by yuki on 8/15/16.
  */
-public class YTrainGridAppModel extends GridAppModel {
+public class YTrainGridAppModel implements GridAppModel {
     private String departureStation;
     private String departureTimeStr;
     private String arrivalStation;
     private String arrivalTimeStr;
-
-    public YTrainGridAppModel(){
-        setType("Y_TRAIN");
-    }
 
     public String getArrivalStation() {
         return arrivalStation;
@@ -43,5 +39,10 @@ public class YTrainGridAppModel extends GridAppModel {
 
     public void setArrivalTimeStr(String arrivalTimeStr) {
         this.arrivalTimeStr = arrivalTimeStr;
+    }
+
+    @Override
+    public String getType() {
+        return "Y_TRAIN";
     }
 }
