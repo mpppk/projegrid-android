@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'deploygate'
 
 android {
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+    }
+
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
